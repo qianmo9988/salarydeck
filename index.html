@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4f1fb">
+  <title>SalaryDeck · 工资收入看板</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%236D4AFF'/%3E%3Ctext x='32' y='44' font-size='34' font-family='Segoe UI,Arial' font-weight='700' fill='white' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body id="top">
+  <div class="intro" id="intro">
+    <div class="intro-blobs" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="intro-scene">
+      <div class="mini-wall" aria-hidden="true">
+        <div class="mini-card m1"><i></i><i></i><i></i></div>
+        <div class="mini-card m2"><i></i><i></i><i></i></div>
+        <div class="mini-card m3"><i></i><i></i><i></i></div>
+        <div class="mini-card m4"><i></i><i></i><i></i></div>
+        <div class="mini-card m5"><i></i><i></i><i></i></div>
+        <div class="mini-card m6"><i></i><i></i><i></i></div>
+      </div>
+      <div class="intro-card">
+        <div class="intro-mark">S</div>
+        <h1 class="intro-word">SalaryDeck</h1>
+        <p class="intro-sub">工资收入看板</p>
+        <div class="intro-chips">
+          <span>主业 + 兼职</span>
+          <span>年度总览</span>
+          <span>仅存本机</span>
+        </div>
+        <span class="intro-sheen" aria-hidden="true"></span>
+      </div>
+      <div class="intro-progress" aria-hidden="true"><i></i></div>
+      <p class="intro-status">正在铺开你的收入视图</p>
+    </div>
+    <button class="intro-skip" id="introSkip" type="button">跳过</button>
+  </div>
+
+  <div class="aurora" aria-hidden="true">
+    <span class="blob blob-a"></span>
+    <span class="blob blob-b"></span>
+    <span class="blob blob-c"></span>
+  </div>
+
+  <header class="topbar">
+    <div class="nav-inner">
+      <a class="brand" href="#top" aria-label="SalaryDeck 首页">
+        <span class="brand-mark">S</span>
+        <span class="brand-text">
+          <strong>SalaryDeck</strong>
+          <em>工资收入看板</em>
+        </span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" aria-label="页面导航">
+        <a href="#overview" class="active">总览</a>
+        <a href="#trend">趋势</a>
+        <a href="#mix">构成</a>
+        <a href="#detail">明细</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="year-switch" id="yearSwitch" role="tablist" aria-label="切换年份"></div>
+        <button class="btn btn-primary" id="openEditor" type="button" aria-label="编辑数据">
+          <span class="btn-ico" data-icon="edit"></span><span class="btn-text">编辑数据</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero-grid">
+      <article class="card hero" id="overview">
+        <div class="hero-copy">
+          <p class="eyebrow" id="heroEyebrow">年度总览</p>
+          <div class="hero-value" id="heroValue">¥0</div>
+          <div class="hero-meta">
+            <span class="pill pill-up" id="heroYoy" hidden></span>
+            <span class="pill" id="heroMonths">已录入 0 / 12 个月</span>
+            <span class="pill pill-ghost" id="heroUpdated">—</span>
+            <button class="btn btn-primary hero-cta" id="heroCta" type="button" hidden>
+              <span class="btn-ico" data-icon="edit"></span><span class="btn-text">开始记录第一笔</span>
+            </button>
+          </div>
+          <div class="hero-split" id="heroSplit"></div>
+        </div>
+        <div class="hero-spark" id="heroSpark" aria-hidden="true"></div>
+      </article>
+
+      <div class="kpi-stack">
+        <article class="card kpi">
+          <span class="kpi-ico" data-icon="calendar"></span>
+          <div class="kpi-body">
+            <p class="kpi-label">月均收入</p>
+            <p class="kpi-value" id="kpiAvg">—</p>
+            <p class="kpi-sub" id="kpiAvgSub">按已录入月份计算</p>
+          </div>
+        </article>
+        <article class="card kpi">
+          <span class="kpi-ico kpi-ico-coral" data-icon="trophy"></span>
+          <div class="kpi-body">
+            <p class="kpi-label">最佳月份</p>
+            <p class="kpi-value" id="kpiBest">—</p>
+            <p class="kpi-sub" id="kpiBestSub">含年终奖</p>
+          </div>
+        </article>
+        <article class="card kpi">
+          <span class="kpi-ico kpi-ico-teal" data-icon="sparkle"></span>
+          <div class="kpi-body">
+            <p class="kpi-label">兼职总收入</p>
+            <p class="kpi-value" id="kpiPart">—</p>
+            <p class="kpi-sub" id="kpiPartSub">占总收入 0%</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="card-grid">
+      <article class="card span-7 reveal" id="trend">
+        <header class="card-head">
+          <h2 class="card-title"><span class="dot dot-violet"></span>全年收入走势</h2>
+          <span class="card-hint">单位：元</span>
+        </header>
+        <div class="chart chart-trend" id="trendChart"></div>
+      </article>
+
+      <article class="card span-5 reveal" id="mix">
+        <header class="card-head">
+          <h2 class="card-title"><span class="dot dot-coral"></span>收入构成</h2>
+          <span class="card-hint">主业 + 兼职</span>
+        </header>
+        <div class="donut-wrap">
+          <div class="donut-box" id="donutChart"></div>
+          <ul class="legend" id="donutLegend"></ul>
+        </div>
+      </article>
+
+      <article class="card span-6 reveal">
+        <header class="card-head">
+          <h2 class="card-title"><span class="dot dot-violet"></span>主业 / 兼职 月度对比</h2>
+          <span class="card-hint">堆叠柱</span>
+        </header>
+        <div class="legend legend-inline" id="stackLegend"></div>
+        <div class="chart" id="stackChart"></div>
+      </article>
+
+      <article class="card span-3 reveal" id="detail">
+        <header class="card-head">
+          <h2 class="card-title"><span class="dot dot-teal"></span>主业明细</h2>
+          <span class="card-hint">全年</span>
+        </header>
+        <div class="break-list" id="mainBreak"></div>
+      </article>
+
+      <article class="card span-3 reveal">
+        <header class="card-head">
+          <h2 class="card-title"><span class="dot dot-violet"></span>年度目标</h2>
+          <span class="card-hint" id="targetHint">—</span>
+        </header>
+        <div class="target-box" id="targetRing"></div>
+      </article>
+
+      <article class="card span-5 span-md-12 reveal">
+        <header class="card-head">
+          <h2 class="card-title"><span class="dot dot-coral"></span>兼职收入 Top 5</h2>
+          <span class="card-hint" id="partTopHint">—</span>
+        </header>
+        <ol class="rank-list" id="partTop"></ol>
+      </article>
+
+      <article class="card span-4 reveal">
+        <header class="card-head">
+          <h2 class="card-title"><span class="dot dot-teal"></span>累计收入 · 目标轨迹</h2>
+          <span class="card-hint" id="cumHint">—</span>
+        </header>
+        <div class="chart" id="cumChart"></div>
+      </article>
+
+      <article class="card span-3 reveal">
+        <header class="card-head">
+          <h2 class="card-title"><span class="dot dot-violet"></span>里程碑</h2>
+          <span class="card-hint">年度</span>
+        </header>
+        <div class="milestones" id="milestones"></div>
+      </article>
+
+      <article class="card span-12 reveal heat-card">
+        <header class="card-head">
+          <h2 class="card-title"><span class="dot dot-coral"></span>收入热力 · 12 个月</h2>
+          <span class="card-hint">颜色越深，当月收入越高</span>
+        </header>
+        <div class="heat-strip" id="heatStrip"></div>
+      </article>
+    </section>
+
+    <footer class="foot">
+      <span>SalaryDeck · 数据仅保存在本机浏览器</span>
+      <span class="foot-sep"></span>
+      <span id="footMeta">—</span>
+    </footer>
+  </main>
+
+  <div class="mask" id="mask"></div>
+
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+    <header class="drawer-head">
+      <div>
+        <p class="eyebrow">DATA ENTRY</p>
+        <h2 id="drawerTitle">编辑收入数据</h2>
+      </div>
+      <button class="icon-btn" id="closeEditor" type="button" aria-label="关闭">
+        <span data-icon="close"></span>
+      </button>
+    </header>
+
+    <div class="drawer-body">
+      <div class="drawer-toolbar">
+        <label class="field">
+          <span>编辑年份</span>
+          <select id="editorYear"></select>
+        </label>
+        <label class="field">
+          <span>年度目标（元）</span>
+          <input id="targetInput" type="number" min="0" step="1000" inputmode="numeric">
+        </label>
+      </div>
+
+      <div class="table-wrap">
+        <table class="entry-table">
+          <thead>
+            <tr>
+              <th>月份</th>
+              <th>基薪</th>
+              <th>绩效</th>
+              <th>补贴</th>
+              <th>年终奖</th>
+              <th>兼职</th>
+              <th>兼职来源</th>
+              <th>合计</th>
+            </tr>
+          </thead>
+          <tbody id="entryBody"></tbody>
+        </table>
+      </div>
+
+      <p class="drawer-note">留空视为 0；保存后写入当前浏览器的 localStorage，不会上传到任何服务器。</p>
+    </div>
+
+    <footer class="drawer-foot">
+      <button class="btn btn-ghost" id="resetData" type="button">
+        <span class="btn-ico" data-icon="reset"></span>清空数据
+      </button>
+      <div class="foot-right">
+        <button class="btn" id="cancelEdit" type="button">取消</button>
+        <button class="btn btn-primary" id="saveData" type="button">
+          <span class="btn-ico" data-icon="check"></span>保存并刷新
+        </button>
+      </div>
+    </footer>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
